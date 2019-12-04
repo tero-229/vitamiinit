@@ -31,10 +31,10 @@ def sendEmail(event, context):
     data = event['body']
     name = data['name'] 
     destination = data['destination']
-    search_criteria = event['search']
+    search_criteria = data['search']
     source = data['source']
     subject = data['subject']
-    tulos = getDescription[search_criteria]
+    tulos = getDescription(search_criteria)
     _message = "Message from: " + name + "\nEmail: " + source + "\nMessage content: " + tulos 
     
     client = boto3.client('ses' )    
