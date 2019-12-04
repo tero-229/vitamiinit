@@ -3,7 +3,7 @@ import boto3
 import os
 from botocore.vendored import requests
 
-region_name = os.environ['REGION_NAME']   
+region_name = 'eu-west-1'
 
 #curlataan GETillä 'kalium', joka palauttaa finelin taulukosta DESCRIPTIONin kaliumille
 #lähetetään curlattu RESPONSE emailina
@@ -35,7 +35,7 @@ def sendEmail(event, context):
     source = data['source']
     subject = data['subject']
     tulos = getDescription(search_criteria)
-    _message = "Message from: " + name + "\nEmail: " + source + "\nMessage content: " + tulos 
+    _message = "Viestin lähettäjä: " + name + "\nEmail: " + source + "\nHakusi tulokset hakusanalla " + search_criteria + ":\n Ja tässä tulos " + tulos 
     
     client = boto3.client('ses' )    
         
@@ -57,4 +57,4 @@ def sendEmail(event, context):
         },
         Source=source,
     )
-    return _message + str(region_name)
+    return "haku käynnissä... vastaus saapuu sähköpostiisi"
