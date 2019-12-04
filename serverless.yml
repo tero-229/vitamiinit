@@ -1,7 +1,7 @@
 service: vitamiini
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.6
   stage: dev
   region: 'eu-west-1'
   iamRoleStatements:
@@ -11,7 +11,7 @@ provider:
         - ses:SendRawEmail
       Resource: "*" 
   environment:
-    REGION_NAME: 'eu-west-1' 
+    REGION_NAME: 'eu-west-1'
 
 functions:
   sendEmail:
