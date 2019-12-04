@@ -5,11 +5,6 @@ from botocore.vendored import requests
 
 region_name = 'eu-west-1'
 
-#curlataan GETillä 'kalium', joka palauttaa finelin taulukosta DESCRIPTIONin kaliumille
-#lähetetään curlattu RESPONSE emailina
-
-
-
 def getDescription(search_criteria):
 
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'}
@@ -35,7 +30,7 @@ def sendEmail(event, context):
     source = data['source']
     subject = data['subject']
     tulos = getDescription(search_criteria)
-    _message = "Viestin lähettäjä: " + name + "\nEmail: " + source + "\nHakusi tulokset hakusanalla " + search_criteria + ":\n Ja tässä tulos " + tulos 
+    _message = "Viestin lähettäjä: " + name + "\nEmail: " + source + "\nHakusi tulokset hakusanalla \"" + search_criteria.lower() + "\":\n" + tulos 
     
     client = boto3.client('ses' )    
         
