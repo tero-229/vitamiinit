@@ -15,7 +15,7 @@ def getDescription(search_criteria):
     for item in data:
                 
         description = item['description']['fi']
-        if search_criteria in description.casefold():
+        if search_criteria.casefold() in description.casefold():
             tulos = description
         else:
             tulos
@@ -24,13 +24,13 @@ def getDescription(search_criteria):
 
 def sendEmail(event, context):
     data = event['body']
-    name = data['name'] 
+    name = "Qigolon nappikauppa Oy"
     destination = data['destination']
     search_criteria = data['search']
-    source = data['source']
-    subject = data['subject']
+    source = "qigolo44@gmail.com"
+    subject = "Qigolon nappikauppa Oy / Hakutulokset"
     tulos = getDescription(search_criteria)
-    _message = "Viestin lähettäjä: " + name + "\nEmail: " + source + "\nHakusi tulokset hakusanalla \"" + search_criteria.lower() + "\":\n" + tulos 
+    _message = "Viestin lähettäjä: " + name + "\nHakusi tulokset hakusanalla \"" + search_criteria.lower() + "\":\n" + tulos 
     
     client = boto3.client('ses' )    
         
@@ -52,4 +52,5 @@ def sendEmail(event, context):
         },
         Source=source,
     )
-    return "haku käynnissä... vastaus saapuu sähköpostiisi"
+    return "Haku käynnissä... vastaus saapuu sähköpostiisi"
+

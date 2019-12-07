@@ -1,0 +1,73 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Qigolon Nappikauppa Oy</title>
+  <meta name="description" content="Qigolon Nappikauppa Oy">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+        <form id="contactForm">
+                <label>Sähköposti</label>
+                <input type="email" placeholder="Sähköposti" name="destination" required>
+                <label>Hakusana</label>
+                <textarea rows="5" placeholder="Hakusana" name="search" required></textarea>
+                <div id="toast"></div>
+                <button type="submit" id="submit">Send</button>
+              </form>
+  <script >
+  const form = document.getElementById('contactForm')
+const url = 'https://bsfvwb5u3h.execute-api.eu-west-1.amazonaws.com/dev/send-email'
+const toast = document.getElementById('toast')
+const submit = document.getElementById('submit')
+
+function post(url, body, callback) {
+  var req = new XMLHttpRequest();
+  req.open("POST", url, true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.addEventListener("load", function () {
+    if (req.status < 400) {
+      callback(null, JSON.parse(req.responseText));
+    } else {
+      callback(new Error("Request failed: " + req.statusText));
+    }
+  });
+  req.send(JSON.stringify(body));
+}
+function success () {
+  toast.innerHTML = 'Kiitos haustasi! Vastaus saapuu sähköpostiisi'
+  submit.disabled = false
+  submit.blur()
+  form.name.focus()
+  form.destination.value = ''
+  form.search.value = ''
+}
+function error (err) {
+  toast.innerHTML = 'Tapahtui virhe, kokeile uudestaan.'
+  submit.disabled = false
+  console.log(err)
+}
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault()
+  toast.innerHTML = 'Haku käynnissä...'
+  submit.disabled = true
+
+  const payload = {
+    destination: form.destination.value,
+    search: form.search.value
+  }
+  post(url, payload, function (err, res) {
+    if (err) { return error(err) }
+    success()
+  })
+})
+  </script>
+</body>
+</html>
