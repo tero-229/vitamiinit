@@ -24,11 +24,11 @@ def getDescription(search_criteria):
 
 def sendEmail(event, context):
     data = event['body']
-    name = "Qigolon nappikauppa Oy"
+    name = "Vitamiinitietokanta"
     destination = data['destination']
     search_criteria = data['search']
-    source = "qigolo44@gmail.com"
-    subject = "Qigolon nappikauppa Oy / Hakutulokset"
+    source = ""
+    subject = "Vitamiinitietokanta / Hakutulokset"
     tulos = getDescription(search_criteria)
     _message = "Viestin lähettäjä: " + name + "\nHakusi tulokset hakusanalla \"" + search_criteria.lower() + "\":\n" + tulos 
     
